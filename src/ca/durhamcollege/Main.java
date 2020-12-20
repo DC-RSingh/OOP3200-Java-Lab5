@@ -55,7 +55,7 @@ public class Main extends Application {
      * Calculate the BMI from a given height and weight.
      * @param height The intended height.
      * @param weight The intended weight.
-     * @return A double with the BMI result.
+     * @return A double with the BMI result (rounded to 1 decimal place).
      */
     private static double calculateBMI(final double height, final double weight)
     {
