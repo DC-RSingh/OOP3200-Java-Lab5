@@ -1,4 +1,4 @@
-package sample;
+package ca.durhamcollege;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

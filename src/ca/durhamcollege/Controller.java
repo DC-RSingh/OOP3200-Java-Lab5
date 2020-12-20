@@ -1,4 +1,4 @@
-package sample;
+package ca.durhamcollege;
 
 public class Controller {
 }
