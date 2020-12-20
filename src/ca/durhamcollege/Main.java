@@ -1,5 +1,5 @@
 /* OOP3200. F2020. Main.java
- *  A simple app that calculates BMI based on the metric units
+ *  A simple JavaFX app that calculates BMI based on the metric units
  *  entered (kilograms for weight and metres for height).
  *
  *	Author:		Raje Singh, Angus Wai
@@ -19,14 +19,56 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    public static int SCENE_WIDTH = 640;
+    public static int SCENE_WIDTH = 690;
     public static int SCENE_HEIGHT = 480;
+
+
+    /**
+     * Get the BMI Scale for the given BMI result.
+     * @param bmi The intended bmi.
+     * @return A string representing the BMI Scale of the result.
+     */
+    private static String getBMIScale(final double bmi)
+    {
+        String scale = "Not a Valid BMI";
+        if (bmi < 18.5)
+        {
+            scale = "Underweight";
+        }
+        else if (bmi >= 18.5 && bmi <= 24.9)
+        {
+            scale = "Normal";
+        }
+        else if (bmi >= 25.0 && bmi <= 29.9)
+        {
+            scale =  "Overweight";
+        }
+        else
+        {
+            scale = "Obese";
+        }
+
+        return scale;
+    }
+
+    /**
+     * Calculate the BMI from a given height and weight.
+     * @param height The intended height.
+     * @param weight The intended weight.
+     * @return A double with the BMI result.
+     */
+    private static double calculateBMI(final double height, final double weight)
+    {
+        double bmi = weight / ( height * height );
+        return (double)Math.round(bmi * 10.0)/10.0;
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception
     {
         // Set the Window Title
         primaryStage.setTitle("Java Lab 5");
+        primaryStage.setResizable(false);
 
         // Create the GridPane Object
         // Setting the Style of the GridPane
@@ -60,6 +102,57 @@ public class Main extends Application {
         // Create a Button object
         Button btnCalculateBMI = new Button("Calculate BMI");
         btnCalculateBMI.setPrefWidth(SCENE_WIDTH);
+
+        // Action Event that calculates BMI when the button is clicked
+        btnCalculateBMI.setOnAction(actionEvent ->
+        {
+            double height = 0;
+            double weight = 0;
+
+            boolean isValid = true;
+
+            // Parse doubles from the TextField text
+            try
+            {
+                height = Double.parseDouble(txtMyHeight.getText());
+                weight = Double.parseDouble(txtMyWeight.getText());
+
+            }
+            catch (NumberFormatException e)
+            {
+                isValid = false;
+            }
+
+            // If Either height or weight is less than or equal to 0
+            if (height <= 0 || weight <= 0)
+            {
+                isValid = false;
+            }
+
+            // If both height and weight are valid, proceed with calculation and update text
+            if (isValid)
+            {
+                double bmi = calculateBMI(height, weight);
+
+                // Set BMI Label Text to BMI Scale
+                lblBMI.setText(getBMIScale(bmi));
+                lblBMI.setStyle("-fx-text-fill: green;");
+
+                // Set BMI Text Field Text to BMI Value
+                txtBMI.setText(String.valueOf(bmi));
+
+                // Set Label
+                txtBMI.setStyle("-fx-text-inner-color: green");
+            }
+            // Else, update text with error message
+            else
+            {
+                lblBMI.setText("Invalid Input");
+                lblBMI.setStyle("-fx-text-fill: red");
+                txtBMI.setText("Enter positive decimal numbers");
+                txtBMI.setStyle("-fx-text-inner-color: red");
+            }
+        });
 
         // Add the Controls to the GridPane
         gridPane.add(lblMyHeight, 0, 0);
