@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    public static int SCENE_WIDTH = 690;
+    public static int SCENE_WIDTH = 720;
     public static int SCENE_HEIGHT = 480;
 
 
